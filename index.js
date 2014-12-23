@@ -71,7 +71,6 @@ function fetch(callback) {
       aom: fetchAomVersions
     },
     function(err, result) {
-      // console.log(result);
       var _ret = result.firefox;
       var aom_max = _.map(result.aom, function(app) {
         if (app.guid === app_ids.FIREFOX) {
