@@ -23,10 +23,10 @@ A simple, probably stupid module that returns a hash containing the following th
 ### Sample data
 
     { 
-        firefox: '34.0.5',
-        beta: '35.0b4',
-        aurora: '36.0a2',
-        nightly: '37.0a1',
-        aom_max: '38.0' 
+        firefox: '34.0.5', // current release
+        beta: '35.0b4', // current beta
+        aurora: '36.0a2', // current Developer Edition
+        nightly: '37.0a1', // likely current nightly version
+        aom_max: '38.0' // max acceptable aom maxVersion
     }
 
