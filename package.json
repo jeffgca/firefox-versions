@@ -1,19 +1,26 @@
 {
   "name": "firefox-versions",
   "version": "0.0.1",
-  "description": "Get compatible app version ranges from addons.mozilla.org",
+  "description": "Fetches the latest version for each Firefox release and pre-release channel.",
   "main": "index.js",
   "scripts": {
     "test": "mocha -t 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:canuckistani/firefox-versions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/canuckistani/firefox-versions/issues"
   },
   "author": "Jeff Griffiths (@canuckistani)",
   "license": "MIT",
   "devDependencies": {
     "chai": "^1.10.0",
-    "mocha": "^2.0.1",
-    "phantom": "^0.7.1"
+    "mocha": "^2.0.1"
   },
   "dependencies": {
+    "phantom": "^0.7.1",
     "async": "^0.9.0",
     "request": "^2.51.0",
     "underscore": "^1.7.0"
