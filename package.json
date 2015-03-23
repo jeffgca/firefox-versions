@@ -1,0 +1,38 @@
+{
+  "name": "firefox-versions",
+  "version": "0.0.1",
+  "description": "Fetches the latest version for each Firefox release and pre-release channel.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -t 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:canuckistani/firefox-versions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/canuckistani/firefox-versions/issues"
+  },
+  "author": {
+    "name": "Jeff Griffiths",
+    "url": "@canuckistani"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1"
+  },
+  "dependencies": {
+    "phantom": "^0.7.1",
+    "async": "^0.9.0",
+    "request": "^2.51.0",
+    "underscore": "^1.7.0"
+  },
+  "readme": "# Firefox Versions\n\nA simple, probably stupid module that returns a hash containing the following things:\n\n* current shipping Firefox version\n* currently shipping Beta version\n* currently shipping Firefox Developer Edition ( aka 'aurora' )\n* likely Nightly version\n* current maximum version usable on AMO. If you want your add-on to be compatible with any pre-release version of Firefox, use this version.\n\n### Install\n\n`npm install firefox-versions`\n\n### Use\n\n    var fxVersions = require('firefox-versions');\n    fxVersions.fetch(function(err, result) {\n        if (err) throw err;\n        console.log(result.firefox); // currently returns \"34.0.5\"\n    });\n\n### Sample data\n\n    { \n        firefox: '34.0.5', // current release\n        beta: '35.0b4', // current beta\n        aurora: '36.0a2', // current Developer Edition\n        nightly: '37.0a1', // likely current nightly version\n        aom_max: '38.0' // max acceptable aom maxVersion\n    }\n\n",
+  "readmeFilename": "README.md",
+  "gitHead": "29f89c38faf7578a14264f5c6b38bb65410c13f0",
+  "homepage": "https://github.com/canuckistani/firefox-versions",
+  "_id": "firefox-versions@0.0.1",
+  "_shasum": "2375814cc06ada80c6926b589f6f75c9abb6e095",
+  "_from": "firefox-versions@*"
+}
