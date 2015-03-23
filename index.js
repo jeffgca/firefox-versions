@@ -2,7 +2,7 @@ var request = require('request');
 var BASE_URI = 'https://svn.mozilla.org/libs/product-details';
 var FIREFOX_PATH = BASE_URI+'/json/firefox_versions.json';
 var AMO_URL = 'https://addons.mozilla.org/en-US/firefox/pages/appversions/';
-var phantom = require('phantom');
+var cheerio = require('cheerio');
 var _ = require('underscore');
 var async = require('async');
 
@@ -17,34 +17,53 @@ var app_ids = {
 
 exports.app_ids = app_ids;
 
-function fetchAomVersions(callback) {
-  phantom.create(function (ph) {
-    ph.createPage(function (page) {
-      page.includeJs('http://underscorejs.org/underscore-min.js');
-      page.open(AMO_URL, function (status) {
-        page.evaluate(function () {
-          var list = document.querySelectorAll('.appversion ul');
-          var data = _.map(list, function(ul) {
-            var _guid = ul.childNodes[1].textContent.split(': ').pop();
-            var _versions = ul.childNodes[3].textContent.split(': ').pop().split(', ');
+// function fetchAomVersions(callback) {
+//   // phantom.create(function (ph) {
+//   //   ph.createPage(function (page) {
+//   //     page.includeJs('http://underscorejs.org/underscore-min.js');
+//   //     page.open(AMO_URL, function (status) {
+//   //       page.evaluate(function () {
+//   //         var list = document.querySelectorAll('.appversion ul');
+//   //         var data = _.map(list, function(ul) {
+//   //           var _guid = ul.childNodes[1].textContent.split(': ').pop();
+//   //           var _versions = ul.childNodes[3].textContent.split(': ').pop().split(', ');
             
-            return { 
-              guid: _guid, 
-              versions: _versions,
-              latest_version: _versions[_versions.length-1]
-            };
-          });
-          return data;
-        }, function (result) {
-          callback(null, result);
-          ph.exit();
-        });
-      });
-    });
-  });
-}
+//   //           return { 
+//   //             guid: _guid, 
+//   //             versions: _versions,
+//   //             latest_version: _versions[_versions.length-1]
+//   //           };
+//   //         });
+//   //         return data;
+//   //       }, function (result) {
+//   //         callback(null, result);
+//   //         ph.exit();
+//   //       });
+//   //     });
+//   //   });
+//   // });
+//   request.get(AMO_URL, function(e, r, b) {
+//     var page = cheerio.load(b);
+//     var list = page('.appversion ul');
 
-exports.fetchAomVersions = fetchAomVersions;
+//     var data = _.map(list, function(ul) {
+//       console.log(ul);
+//       // var _guid = ul;
+//       // console.log();
+//       // var _versions = ul.get(3).html();
+      
+//       return { 
+//         guid: ul, 
+//         // versions: _versions,
+//         // latest_version: _versions[_versions.length-1]
+//       };
+//     });
+//     // var versions = raw.split(', ');
+//     callback(null, data);
+//   });
+// }
+
+// exports.fetchAomVersions = fetchAomVersions;
 
 function fetchFirefoxLatest(callback) {
   request.get(FIREFOX_PATH, function(err, result, body) {
@@ -68,18 +87,18 @@ exports.fetchFirefoxLatest = fetchFirefoxLatest;
 function fetch(callback) {
   async.parallel({
       firefox: fetchFirefoxLatest,
-      aom: fetchAomVersions
+      // aom: fetchAomVersions
     },
     function(err, result) {
       var _ret = result.firefox;
-      var aom_max = _.map(result.aom, function(app) {
-        if (app.guid === app_ids.FIREFOX) {
-          // console.log("matched", app);
-          return app.latest_version;
-        }
-      });
+      // var aom_max = _.map(result.aom, function(app) {
+      //   if (app.guid === app_ids.FIREFOX) {
+      //     // console.log("matched", app);
+      //     return app.latest_version;
+      //   }
+      // });
 
-      _ret.aom_max = aom_max.shift();
+      // _ret.aom_max = aom_max.shift();
       callback(null, _ret);
     }
   );
@@ -88,7 +107,6 @@ function fetch(callback) {
 exports.fetch = fetch;
 
 if (!module.parent) {
-  // ??
   fetch(function(e, r) {
     console.log(r);
   });
